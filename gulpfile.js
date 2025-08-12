@@ -6,7 +6,6 @@ const imagemin     = require('gulp-imagemin');
 const htmlmin      = require('gulp-htmlmin');
 const concat       = require('gulp-concat');
 const uglify       = require('gulp-uglify');
-const webp         = require('gulp-webp');
 const sass         = require('gulp-sass')(require('sass'));
 const del          = require('del');
 
@@ -41,7 +40,7 @@ function watching(){
     watch(['source/styles/scss/style.scss'], styles)
     watch(['source/scripts/**/*'], scripts)
     watch(['source/fonts/**/*'], fonts)
-    watch(['source/images/**/*'], images)
+    watch(['source/img/**/*'], images)
     watch(['source/index.html'], html).on('change', browserSync.reload)
 }
 
@@ -75,7 +74,7 @@ function fonts(){
 }
 
 function images(){
-    return src('source/images/**/*')
+    return src('source/img/**/*')
             .pipe(imagemin([
                   imagemin.gifsicle({interlaced: true}),
                   imagemin.mozjpeg({quality: 75, progressive: true}),
@@ -87,14 +86,7 @@ function images(){
                     ]
                 })
             ]))
-           .pipe(dest('dist/images'))
-           .pipe(browserSync.stream())
-}
-
-function imgWebp(){
-    return src('source/images/**/*')
-           .pipe(webp())
-           .pipe(dest('dist/images'))
+           .pipe(dest('dist/img'))
            .pipe(browserSync.stream())
 }
 
@@ -103,7 +95,6 @@ exports.browsersync = browsersync;
 exports.cleanDist   = cleanDist;
 exports.watching    = watching;
 exports.scripts     = scripts;
-exports.imgWebp     = imgWebp;
 exports.styles      = styles;
 exports.images      = images;
 exports.fonts       = fonts;
